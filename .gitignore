@@ -1,0 +1,46 @@
+# Kaggle API credentials (NEVER commit!)
+kaggle.json
+.kaggle/
+*credentials*
+*secret*
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Kernel outputs (large CSVs, logs)
+out_*/
+*.log
+submission*.csv
+subm_*.csv
+
+# Patched/intermediate kaggle pushes
+kaggle_push*/
+fetch_*/
+
+# Cached data
+cache/
+*.parquet
+*.pkl
+*.npz
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Local strategy / notes
+sgkfk_meta/
+
+# IDE/agent configs
+.claude/
