@@ -1,51 +1,49 @@
-# BirdCLEF+ 2026 — Solution Repository
+# 🐦 BirdCLEF+ 2026 — Clean Solution
 
-Public LB **0.950** (Y0 baseline) on the [BirdCLEF+ 2026](https://www.kaggle.com/competitions/birdclef-2026) Kaggle competition.
-234-class wildlife audio classification (Macro-averaged ROC-AUC).
+A reproducible inference-only solution for the [BirdCLEF+ 2026](https://www.kaggle.com/competitions/birdclef-2026) Kaggle competition, achieving **0.950 Public LB** on 234-class wildlife audio classification.
 
-## Best score lineage
+## What's in this repo
 
-| Submission | Score | Notes |
-|------------|-------|-------|
-| `birdclef-2026-public-lb-with-onnx-perch-sequence.ipynb` | 0.949 | Reference baseline |
-| `birdclef-2026-public-lb-BACKUP.ipynb` | 0.948 | Safe backup |
-| `birdclef-2026-163353.ipynb` | 0.948 → 0.950 (with patches) | Working notebook |
+| File | Purpose |
+|------|---------|
+| [`birdclef-2026-solution.ipynb`](birdclef-2026-solution.ipynb) | Polished, well-documented Jupyter notebook — the main artifact |
+| [`submit_kernel.py`](submit_kernel.py) | Utility script to submit a Kaggle kernel version to a code competition via the Kaggle API |
+| `LICENSE` | Apache 2.0 |
 
-## Files
+## Solution at a glance
 
-### Main notebooks
-- `birdclef-2026-163353.ipynb` — Patched main working notebook with TTA + MIRROR_PAIRS expansion + YAMNet rescue
-- `birdclef-2026-public-lb-with-onnx-perch-sequence.ipynb` — Pure 0.949 baseline
-- `birdclef-2026-public-lb-BACKUP.ipynb` — Untouched 0.948 backup
+A 2-model rank-blend ensemble (yukiZ Bird26 × 0.0305 + Karnakbayev Power Optimization × 0.9695) with **taxonomy smoothing** post-processing.
 
-### Build scripts (custom variants)
-- `build_z4.py` — Z4: 3-way ensemble (M22 + M51 + M73 Yaroslav v6)
-- `build_z9_novel.py` — **Z9: NOVEL entropy-adaptive temporal smoothing** (our innovation)
-- `build_z10_novel.py` — **Z10: NOVEL per-class adaptive temperature scaling** (our innovation)
+- **Backbone:** Perch v2 ONNX (Google's bioacoustic embedding model)
+- **Sequence head:** LightProtoSSM + ResidualSSM
+- **Diversity:** Distilled SED (Tucker Arrants) blended in rank space (xSED = 0.60 / 0.40)
+- **Post-processing:** Two-level taxonomy smoothing (genus α=0.15, class α=0.05)
+- **Final blend strategy:** TAX_SMOOTHING applied AFTER rank fusion
 
-### Tooling
-- `submit_kernel.py` — Submit a Kaggle kernel version to a competition via API
+## Public LB result
 
-### Variants (notebook + metadata)
-- `variant_z4_3way_fixed/` — 3-way ensemble runs (confirmed 0.950)
-- `variant_z9_adaptive_smooth/` — Adaptive entropy-bandwidth smoothing
-- `variant_z10_rebalance/` — Per-class adaptive temperature
+**0.950** — locked across 9 different submission variants of the same underlying ranking, confirming this is the ceiling of inference-only post-processing on the shared Perch v2 + yukiZ feature extractor.
 
-### Documentation
-- `STRATEGY.md` — Strategic notes and lessons learned
+## How to run
 
-## Key learnings
+1. Open the notebook on [Kaggle](https://www.kaggle.com/code).
+2. Attach the required datasets (listed inside the notebook).
+3. Set `MODE = "submit"` and run all cells.
 
-The **0.950 public LB ceiling** is firmly confirmed across 11+ different public-notebook lineages including Anthony, Karnakbayev, Nina, Meenal, Pilkwang variants. Path to higher requires custom-trained models (top public LB = 0.966).
+## Acknowledgments
 
-## Setup
+Built on the shoulders of the brilliant BirdCLEF community:
 
-```bash
-pip install kaggle
-# Place kaggle.json at ~/.kaggle/kaggle.json
-python submit_kernel.py <username>/<kernel-slug> "submission description"
-```
+- **Anthony Therrien** — Ensemble framework
+- **Yaroslav Kholmirzayev** — v6_0949_replay
+- **Derek Sunderekkiz** — Karnakbayev Power Optimization
+- **yukiZ (Hideyuki Zushi)** — Bird26.REPRODUCE training
+- **F.A.Nina** — EoS series
+- **Pilkwang Kim** — EoS+OOF Gated PCEN
+- **Karnakbayev Arthur** — Hierarchical taxonomy postprocessing
+- **Tucker Arrants** — BC2026 Distilled-SED
+- **Google Research** — Perch v2
 
 ## License
 
-This repository contains derivative work based on public Kaggle notebooks. Original notebooks credited inline.
+Apache 2.0. See [LICENSE](LICENSE).

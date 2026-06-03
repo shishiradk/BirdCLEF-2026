@@ -27,6 +27,30 @@ sgkfk_meta/
 # IDE/agent configs
 .claude/
 
+# PRIVATE: next-competition playbook and internal notes (NOT for public)
+LEARNINGS.md
+STRATEGY.md
+POSTMORTEM.md
+
+# Internal working notebooks (forks/derivatives, not for public)
+birdclef-2026-163353.ipynb
+birdclef-2026-public-lb-BACKUP.ipynb
+birdclef-2026-public-lb-with-onnx-perch-sequence.ipynb
+birdclef-2026-training-pipeline.ipynb
+
+# Internal experiments (not part of the public solution)
+build_z4.py
+build_z9_novel.py
+build_z10_novel.py
+build_z11_maxblend.py
+build_z12_topk_preserve.py
+build_z13_intrafile_avg.py
+build_best_notebook.py
+variant_z*/
+anthony_950/
+fetch_*/
+out_*/
+
 # ===== Standard Python =====
 __pycache__/
 *.py[codz]
